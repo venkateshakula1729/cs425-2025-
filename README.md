@@ -29,6 +29,7 @@ The server responds to the following commands:
 ### Threading Model
 We decided to open a new thread for each client connection to allow every client to send and receive messages without blocking any other client. This may cause higher memory overhead for a large number of connections but will have a **lesser response time** and greatly ease concurrent operations. This allows us easier state management where thread-local storage naturally separates client state
 When a client disconnects, we remove them from all groups they've joined and clean up associated resources. This ensures that groups only contain active members and prevents resource leaks.
+
 **Why Not Processes?:** Threads are lightweight compared to processes and share the same memory space, making it easier to manage shared resources like client lists and group data.
 
 ### Synchronization Strategy 
@@ -37,6 +38,7 @@ The server uses three main mutex locks to handle concurrent access:
 1. `clients_mutex`: Protects the clients map containing socket-to-username mappings
 2. `groups_mutex`: Guards the groups data structure
 3. `active_users_mutex`: Protects the active users tracking system
+4. 
 **Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
 ### Buffer Size

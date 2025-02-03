@@ -72,24 +72,24 @@ The broadcast system:
 I implemented a reliable message delivery system using the `send_all` function that ensures complete message transmission even if the underlying TCP send calls only transmit partial data. This was crucial for maintaining message integrity in a chat application.
 
 ### Code Flow
-1. Server startup:
+__1. Server startup:__
    - Load user credentials
    - Create and bind socket
    - Start accepting connections
 
-2. Client connection:
+__2. Client connection:__
    - Accept connection
    - Spawn a new thread running handle_client
    - Authenticate user
    - Enter message processing loop
 
-3. Message processing:
+__3. Message processing:__
    - Parse command
    - Acquire necessary locks
    - Execute command
    - Broadcast/send responses
    - Release locks
-4. Client disconnection:
+__4. Client disconnection:__
    - Handle client disconnections  
    - clean up resources
 
@@ -99,21 +99,20 @@ I implemented a reliable message delivery system using the `send_all` function t
 We conducted extensive testing to ensure the correct functionality of all implemented features:
 Correctness Testing:
 
-1. Basic functionality Correctness testing:
+__1. Basic functionality Correctness testing:__
    - Verified user authentication with valid and invalid credentials
    - Tested private messaging between users
    - Checked group creation, joining, and messaging functionality
    - Concurrent client handling
    - Ensured proper handling of client disconnections
 
-2. Stress testing:
+__2. Stress testing:__
    - Simulated multiple concurrent client connections (up to 50)
    - Tested rapid message sending from multiple clients
    - Large group operations
    - Verified server stability under high load
 
-
-3. Edge case testing:
+__3. Edge case testing:__
    - Network disconnections
    - Invalid commands
    - Verified behavior when attempting to join non-existent groups
@@ -130,18 +129,19 @@ Correctness Testing:
 - A user cannot have multiple simultaneous connections
 Empty group names or messages are not allowed
 Chat server maintains user and group information only while active
+
 ## Challenges Faced
 
 ### Technical Challenges
-1. Message Fragmentation
+__1. Message Fragmentation__
    - Problem: TCP stream could split messages
    - Solution: Implemented send_all with complete delivery guarantee
 
-2. Race Conditions
+__2. Race Conditions__
    - Problem: Concurrent access to shared data structures
    - Solution: Implemented fine-grained mutex protection
 
-3. Resource Management
+__3. Resource Management__
    - Problem: Thread cleanup for disconnected clients
    - Solution: Used RAII and proper thread detachment
 

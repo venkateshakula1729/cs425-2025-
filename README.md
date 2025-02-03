@@ -10,8 +10,9 @@ This project implements a TCP-based chat server supporting multiple concurrent c
 - User authentication using username/password stored in users.txt
 - Real-time message broadcasting to all connected clients
 - Private messaging between users
-- Group creation and management
+- Multiple Group creation and management
 - Group messaging capabilities
+- Concurrent client handling
 
 ### Command Support
 The server responds to the following commands:
@@ -21,29 +22,32 @@ The server responds to the following commands:
 - `/join_group <group_name>`: Join an existing group
 - `/leave_group <group_name>`: Exit from a group
 - `/group_msg <group_name> <message>`: Send message to group members
-- `/exit`: Disconnect from server
+- `/exit`: Disconnect from the server
 
 ## Design Decisions
 
 ### Threading Model
-I chose to implement a thread-per-connection model where each client connection is handled by a dedicated thread. While this approach consumes more system resources compared to event-driven architectures, it offers several advantages for our use case:
-
-1. Simplified message handling: Each client has its own context and can block on receive operations without affecting other clients
-2. Easier state management: Thread-local storage naturally separates client state
-3. Better scalability for our target use case (small to medium chat rooms)
+We decided to open a new thread for each client connection to allow every client to send and receive messages without blocking any other client. This may cause higher memory overhead for a large number of connections but will have a **lesser response time** and greatly ease concurrent operations. This allows us easier state management where thread-local storage naturally separates client state
+When a client disconnects, we remove them from all groups they've joined and clean up associated resources. This ensures that groups only contain active members and prevents resource leaks.
+**Why Not Processes?:** Threads are lightweight compared to processes and share the same memory space, making it easier to manage shared resources like client lists and group data.
 
 ### Synchronization Strategy 
+We use mutex locks to protect shared resources such as client lists, group memberships, and active user status. 
 The server uses three main mutex locks to handle concurrent access:
 1. `clients_mutex`: Protects the clients map containing socket-to-username mappings
 2. `groups_mutex`: Guards the groups data structure
 3. `active_users_mutex`: Protects the active users tracking system
+**Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
+This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
 
-This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel.
-
-### Message Delivery
-I implemented a reliable message delivery system using the `send_all` function that ensures complete message transmission even if the underlying TCP send calls only transmit partial data. This was crucial for maintaining message integrity in a chat application.
-
+### 
 ## Implementation Details
+### Key Functions
+ - handle_client: Manages individual client connections, processes incoming messages, and routes them appropriately.
+ - broadcast_message: Sends a message to all connected clients or members of a specific group.
+ - send_private_message: Routes private messages between two users.
+ - group_message: Handles sending messages to all members of a group.
+ - remove_client_from_groups: Cleans up group memberships when a client disconnects.
 
 ### Key Components
 
@@ -63,6 +67,8 @@ The broadcast system:
 2. Iterates through connected clients
 3. Sends messages using send_all for reliability
 4. Handles partial sends and network errors
+### Message Delivery
+I implemented a reliable message delivery system using the `send_all` function that ensures complete message transmission even if the underlying TCP send calls only transmit partial data. This was crucial for maintaining message integrity in a chat application.
 
 ### Code Flow
 1. Server startup:
@@ -72,7 +78,7 @@ The broadcast system:
 
 2. Client connection:
    - Accept connection
-   - Create new thread
+   - Spawn a new thread running handle_client
    - Authenticate user
    - Enter message processing loop
 
@@ -82,32 +88,47 @@ The broadcast system:
    - Execute command
    - Broadcast/send responses
    - Release locks
+4. Client disconnection:
+   - Handle client disconnections  
+   - clean up resources
 
 ## Testing
 
 ### Methodology
-1. Basic functionality testing:
-   - User authentication
-   - Message delivery
-   - Group operations
+We conducted extensive testing to ensure the correct functionality of all implemented features:
+Correctness Testing:
+
+1. Basic functionality Correctness testing:
+   - Verified user authentication with valid and invalid credentials
+   - Tested private messaging between users
+   - Checked group creation, joining, and messaging functionality
    - Concurrent client handling
+   - Ensured proper handling of client disconnections
 
 2. Stress testing:
-   - Multiple simultaneous connections (tested up to 100 concurrent clients)
-   - Rapid message transmission
+   - Simulated multiple concurrent client connections (up to 50)
+   - Tested rapid message sending from multiple clients
    - Large group operations
+   - Verified server stability under high load
+
 
 3. Edge case testing:
    - Network disconnections
    - Invalid commands
-   - Boundary conditions
+   - Verified behavior when attempting to join non-existent groups
+   - Checked for proper cleanup of empty groups
+   - Tested handling of empty messages and group names
+
 
 ### System Limitations
-- Maximum message size: 1024 bytes (BUFFER_SIZE)
+- Maximum message size: Limited by BUFFER_SIZE (1024 bytes) 
 - Recommended maximum concurrent clients: 200 (thread pool limitations)
 - Maximum group size: Limited by available system memory
 - Group name length: Limited by BUFFER_SIZE
-
+- Users can only send messages to active users
+- A user cannot have multiple simultaneous connections
+Empty group names or messages are not allowed
+Chat server maintains user and group information only while active
 ## Challenges Faced
 
 ### Technical Challenges

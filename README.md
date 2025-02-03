@@ -146,9 +146,9 @@ Chat server maintains user and group information only while active
    - Solution: Used RAII and proper thread detachment
 
 ## Team Contribution
-- Design (35%): Implemented core architecture and synchronization strategy
-- Implementation (40%): Developed server code, message handling, and group management
-- Testing (25%): Created test cases, performed stress testing, and bug fixes
+- Venkatesh (33%): Developed server code, message handling, and documentation
+- Sai Nikhil (34%): Implemented core architecture and synchronization strategy
+- Anas (33%): Created test cases, performed stress testing, and bug fixes
 
 ## Sources Referenced
 - Stevens, W. R. (2003). UNIX Network Programming

@@ -3,6 +3,44 @@
 ## Overview
 This project implements a TCP-based chat server supporting multiple concurrent clients, private messaging, and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system.
 
+## How to Run the Code
+
+Ensure you have a C++ compiler and Make installed on your system.
+
+
+### Compile the server and client:
+
+```bash
+make
+```
+
+### Start the server:
+
+```bash
+./server_grp
+```
+
+In separate terminal windows, run multiple clients:
+
+```bash
+./client_grp
+```
+
+Follow the prompts to enter username and password for each client.
+
+### Use the following commands in the client:
+
+- `/msg <username> <message>`: Send a private message
+- `/broadcast <message>`: Send a message to all users
+- `/create_group <group_name>`: Create a new group
+- `/join_group <group_name>`: Join an existing group
+- `/group_msg <group_name> <message>`: Send a message to a group
+- `/leave_group <group_name>`: Leave a group
+- `/exit`: Disconnect from the server
+
+**Note:** Ensure the `users.txt` file is in the same directory as the server executable, containing valid username:password pairs.
+
+
 ## Features Implemented
 
 ### Core Functionality
@@ -38,7 +76,7 @@ The server uses three main mutex locks to handle concurrent access:
 1. `clients_mutex`: Protects the clients map containing socket-to-username mappings
 2. `groups_mutex`: Guards the groups data structure
 3. `active_users_mutex`: Protects the active users tracking system
-4. 
+   
 **Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
 ### Buffer Size
@@ -66,10 +104,11 @@ We set a fixed buffer size (1024 bytes) for message transmission. This decision 
 
 #### Message Broadcasting
 The broadcast system:
-1. Acquires necessary locks
-2. Iterates through connected clients
-3. Sends messages using send_all for reliability
-4. Handles partial sends and network errors
+ -  Acquires necessary locks
+ -  Iterates through connected clients
+ -   Sends messages using send_all for reliability
+ -    Handles partial sends and network errors
+   
 ### Message Delivery
 I implemented a reliable message delivery system using the `send_all` function that ensures complete message transmission even if the underlying TCP send calls only transmit partial data. This was crucial for maintaining message integrity in a chat application.
 

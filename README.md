@@ -39,7 +39,8 @@ The server uses three main mutex locks to handle concurrent access:
 3. `active_users_mutex`: Protects the active users tracking system
 **Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
-
+### Buffer Size
+We set a fixed buffer size (1024 bytes) for message transmission. This decision balances between allowing reasonably sized messages and preventing excessive memory usage or potential buffer overflow attacks.
 ### 
 ## Implementation Details
 ### Key Functions

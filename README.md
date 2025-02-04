@@ -86,15 +86,11 @@ We set a fixed buffer size (1024 bytes) for message transmission. This decision 
 ### 
 ## Implementation Details
 ### Key Functions
- -`handle_client`: Manages individual client connections, processes incoming messages, and routes them appropriately.
- 
- -`broadcast_message`: Sends a message to all connected clients or members of a specific group.
- 
- -`send_private_message`: Routes private messages between two users.
- 
- -`group_message`: Handles sending messages to all members of a group.
- 
- -`remove_client_from_groups`: Cleans up group memberships when a client disconnects.
+ 1.`handle_client`: Manages individual client connections, processes incoming messages, and routes them appropriately.
+ 2.`broadcast_message`: Sends a message to all connected clients or members of a specific group.
+ 3.`send_private_message`: Routes private messages between two users.
+ 4.`group_message`: Handles sending messages to all members of a group.
+ 5.`remove_client_from_groups`: Cleans up group memberships when a client disconnects.
 
 ### Key Components
 

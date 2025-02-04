@@ -79,15 +79,21 @@ The server uses three main mutex locks to handle concurrent access:
    
 **Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
+
 ### Buffer Size
 We set a fixed buffer size (1024 bytes) for message transmission. This decision balances between allowing reasonably sized messages and preventing excessive memory usage or potential buffer overflow attacks.
+
 ### 
 ## Implementation Details
 ### Key Functions
  -`handle_client`: Manages individual client connections, processes incoming messages, and routes them appropriately.
+ 
  -`broadcast_message`: Sends a message to all connected clients or members of a specific group.
+ 
  -`send_private_message`: Routes private messages between two users.
+ 
  -`group_message`: Handles sending messages to all members of a group.
+ 
  -`remove_client_from_groups`: Cleans up group memberships when a client disconnects.
 
 ### Key Components

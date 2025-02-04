@@ -43,6 +43,8 @@ Follow the prompts to enter username and password for each client.
 
 ## Features Implemented
 
+We have implemented all the features described in the assignment. Some important functionalities are mentioned below.
+
 ### Core Functionality
 - Multi-threaded server architecture supporting concurrent client connections
 - User authentication using username/password stored in users.txt

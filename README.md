@@ -4,14 +4,15 @@
 This project implements a TCP-based chat server supporting multiple concurrent clients, message transfer(broadcast/unicast), and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system. 
 
 ## File structure
-chat/
-├── CMakeLists.txt
-├── README.md
-├── make.sh 
-├── Readme.md
-├── client.cpp 
-└── server.cpp 
+```bash
 
+chat/
+├── Makefile  (Compilation script)
+├── users.txt (users details)
+├── README.md  (Project Report)
+├── client_grp.cpp (Client source code)
+└── server_grp.cpp (Server source code)
+```
 
 ## Instructions to Run the Code
 

@@ -5,7 +5,7 @@ This project implements a TCP-based chat server supporting multiple concurrent c
 
 ## Instructions to Run the Code
 
-Ensure you have a linux system with C++ compiler and Make installed on your system.
+Ensure you have a linux/MacOS system with C++ compiler and Make installed on your system.
 
 
 ### Compile the server and client:

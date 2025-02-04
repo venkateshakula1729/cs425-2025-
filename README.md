@@ -130,6 +130,7 @@ __3. Message processing:__
    - Execute command
    - Broadcast/send responses
    - Release locks
+     
 __4. Client disconnection:__
    - Handle client disconnections  
    - clean up resources

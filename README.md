@@ -3,7 +3,7 @@
 ## Overview
 This project implements a TCP-based chat server supporting multiple concurrent clients, private messaging, and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system.
 
-## How to Run the Code
+## Instructions to Run the Code
 
 Ensure you have a linux system with C++ compiler and Make installed on your system.
 

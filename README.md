@@ -14,17 +14,19 @@ Ensure you have a linux system with C++ compiler and Make installed on your syst
 make
 ```
 
-### Start the server:
+### Run the server:
 
 ```bash
 ./server_grp
 ```
 
-In separate terminal windows, run multiple clients:
+### Run the server:
 
 ```bash
 ./client_grp
 ```
+
+In separate terminal windows, you can run multiple clients.
 
 When prompted, enter the username and password for each client present in 'users.txt'
 

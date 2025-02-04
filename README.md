@@ -86,11 +86,11 @@ We set a fixed buffer size (1024 bytes) for message transmission. This decision 
 ### 
 ## Implementation Details
 ### Key Functions
- 1.`handle_client`: Manages individual client connections, processes incoming messages, and routes them appropriately.
- 2.`broadcast_message`: Sends a message to all connected clients or members of a specific group.
- 3.`send_private_message`: Routes private messages between two users.
- 4.`group_message`: Handles sending messages to all members of a group.
- 5.`remove_client_from_groups`: Cleans up group memberships when a client disconnects.
+ 1. `handle_client`: Manages individual client connections, processes incoming messages, and routes them appropriately.
+ 2. `broadcast_message`: Sends a message to all connected clients or members of a specific group.
+ 3. `send_private_message`: Routes private messages between two users.
+ 4. `group_message`: Handles sending messages to all members of a group.
+ 5. `remove_client_from_groups`: Cleans up group memberships when a client disconnects.
 
 ### Key Components
 
@@ -108,8 +108,8 @@ We set a fixed buffer size (1024 bytes) for message transmission. This decision 
 The broadcast system:
  -  Acquires necessary locks
  -  Iterates through connected clients
- -   Sends messages using send_all for reliability
- -    Handles partial sends and network errors
+ -  Sends messages using send_all for reliability
+ -  Handles partial sends and network errors
    
 ### Message Delivery
 I implemented a reliable message delivery system using the `send_all` function that ensures complete message transmission even if the underlying TCP send calls only transmit partial data. This was crucial for maintaining message integrity in a chat application.

@@ -5,7 +5,7 @@ This project implements a TCP-based chat server supporting multiple concurrent c
 
 ## How to Run the Code
 
-Ensure you have a C++ compiler and Make installed on your system.
+Ensure you have a linux system with C++ compiler and Make installed on your system.
 
 
 ### Compile the server and client:
@@ -26,7 +26,7 @@ In separate terminal windows, run multiple clients:
 ./client_grp
 ```
 
-Follow the prompts to enter username and password for each client.
+When prompted, enter the username and password for each client which is present in 'users.txt'
 
 ### Use the following commands in the client:
 

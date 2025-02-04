@@ -20,7 +20,7 @@ make
 ./server_grp
 ```
 
-### Run the server:
+### Run the client:
 
 ```bash
 ./client_grp

@@ -215,7 +215,7 @@ __3. Resource Management__
 - Beej's Guide to Network Programming
 
 ## Declaration
-I declare that this implementation is my original work. All sources have been properly referenced, and no code has been plagiarized.
+I declare that this implementation is our original work. All sources have been properly referenced, and no code has been plagiarized.
 
 ## Feedback
 Suggestions for future improvements:

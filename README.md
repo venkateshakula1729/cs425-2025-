@@ -1,7 +1,17 @@
 # Multi-threaded Chat Server with Group Communication
 
-## Overview
-This project implements a TCP-based chat server supporting multiple concurrent clients, private messaging, and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system.
+## Project Description
+This project implements a TCP-based chat server supporting multiple concurrent clients, message transfer(broadcast/unicast), and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system. 
+
+## File structure
+chat/
+├── CMakeLists.txt
+├── README.md
+├── make.sh 
+├── Readme.md
+├── client.cpp 
+└── server.cpp 
+
 
 ## Instructions to Run the Code
 

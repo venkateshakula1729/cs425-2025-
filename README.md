@@ -26,7 +26,7 @@ In separate terminal windows, run multiple clients:
 ./client_grp
 ```
 
-When prompted, enter the username and password for each client which is present in 'users.txt'
+When prompted, enter the username and password for each client present in 'users.txt'
 
 ### Use the following commands in the client:
 

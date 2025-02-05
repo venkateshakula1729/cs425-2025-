@@ -59,7 +59,7 @@ When prompted, enter the **username** and **password** for each client present i
 
 We have implemented **all the features** described in the assignment. Some important functionalities are mentioned below.
 
-### Core Functionality
+### <ins>Core Functionality</ins>
 - Multi-threaded server architecture supporting concurrent client connections
 - User authentication using username/password stored in users.txt
 - Real-time message broadcasting to all connected clients
@@ -67,7 +67,7 @@ We have implemented **all the features** described in the assignment. Some impor
 - Multiple Group creation and management
 - Concurrent client handling
 
-### Command Support
+### <ins>Command Support</ins>
 The server responds to the following commands:
 - `/msg <username> <message>`: Send private messages
 - `/broadcast <message>`: Broadcast to all connected users
@@ -79,13 +79,13 @@ The server responds to the following commands:
 
 ## Design Decisions
 
-### Threading Model
+### <ins>Threading Model<ins>
 We decided to open a new thread for each client connection to allow every client to send and receive messages without blocking any other client. This may cause higher memory overhead for a large number of connections but will have a **lesser response time** and greatly ease concurrent operations. This allows us easier state management where thread-local storage naturally separates client state
 When a client disconnects, we remove them from all groups they've joined and clean up associated resources. This ensures that groups only contain active members and prevents resource leaks.
 
 >**Why Not Processes?:** Threads are lightweight compared to processes and share the same memory space, making it easier to manage shared resources like client lists and group data.
 
-### Synchronization Strategy 
+### <ins>Synchronization Strategy</ins>
 We use mutex locks to protect shared resources such as client lists, group memberships, and active user status. 
 The server uses three main mutex locks to handle concurrent access:
 1. `clients_mutex`: Protects the clients map containing socket-to-username mappings
@@ -95,18 +95,18 @@ The server uses three main mutex locks to handle concurrent access:
 >**Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
 
-### Message Handling
+### <ins>Message Handling</ins>
 We set a fixed buffer size (1MB) for message transmission. This decision balances between allowing reasonably sized messages and **preventing** excessive memory usage or potential **buffer overflow attacks.**
 
-### Empty group handle
+### <ins>Empty group handle</ins>
 We have decided to **remove** all the empty groups dynamically whenever they get created by taking inspiration from **Whatsapp**. 
 Also, the server does not allow empty messages and group names.
 
-### Single Connection Per User
+### <ins>Single Connection Per User</ins>
 The server enforces single connection per user. We have implemented a check in the authentication process prevents multiple simultaneous connections by maintaining an active_users map.
 
-### Active users 
-Chat server maintains user and group information only while active
+### <ins>Active users management </ins>
+The chat server only maintains active users' information and the sockets assigned to them. Once a user leaves the group, all his data and the sockets assigned to them will be cleaned.
 
 
 ### 
@@ -123,17 +123,17 @@ Chat server maintains user and group information only while active
 
 ### Key Components
 
-#### User Authentication
+#### <ins>User Authentication</ins>
 - Passwords are stored in plaintext file in **users.txt**
 - Authentication happens at connection time before any other operations are allowed
 - The system **prevents multiple logins** from the same username
 
-#### Group Management
+#### <ins>Group Management</ins>
 - Groups are stored in an unordered_map with group names as keys and member sets as values
 - Group operations are protected by mutex to prevent race conditions
 - Group leaving/joining changes trigger notifications to other group members
 
-#### Message Broadcasting/Unicasting
+#### <ins>Message Broadcasting/Unicasting</ins>
 The broadcast system:
  -  Acquires necessary locks
  -  Iterates through connected clients

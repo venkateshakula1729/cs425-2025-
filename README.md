@@ -5,7 +5,9 @@ This project implements a TCP-based chat server supporting multiple concurrent c
 
 ## Team Members
 Venkatesh Akula (220109)
+
 Mohammed Anas (220654)
+
 Sai Nikhil (221095)
 
 ## File structure

@@ -40,7 +40,7 @@ make
 
 In separate terminal windows, you can run multiple clients.
 
-When prompted, enter the username and password for each client present in 'users.txt'
+When prompted, enter the **username** and **password** for each client present in **'users.txt'**
 
 ### Use the following commands in the client:
 
@@ -63,9 +63,8 @@ We have implemented **all the features** described in the assignment. Some impor
 - Multi-threaded server architecture supporting concurrent client connections
 - User authentication using username/password stored in users.txt
 - Real-time message broadcasting to all connected clients
-- Private messaging between users
+- Private messaging Group messaging capabilities between users
 - Multiple Group creation and management
-- Group messaging capabilities
 - Concurrent client handling
 
 ### Command Support
@@ -96,13 +95,19 @@ The server uses three main mutex locks to handle concurrent access:
 >**Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
 
-### Buffer Size
-We set a fixed buffer size (1024 bytes) for message transmission. This decision balances between allowing reasonably sized messages and preventing excessive memory usage or potential buffer overflow attacks.
+### Message Handling
+We set a fixed buffer size (1MB) for message transmission. This decision balances between allowing reasonably sized messages and **preventing** excessive memory usage or potential **buffer overflow attacks.**
 
 ### Empty group handle
 We have decided to **remove** all the empty groups dynamically whenever they get created by taking inspiration from **Whatsapp**. 
+Also, the server does not allow empty messages and group names.
 
-### 
+### Single Connection Per User
+The server enforces single connection per user. We have implemented a check in the authentication process prevents multiple simultaneous connections by maintaining an active_users map.
+
+### Active users 
+Chat server maintains user and group information only while active
+
 
 ### 
 ## Implementation Details
@@ -119,14 +124,14 @@ We have decided to **remove** all the empty groups dynamically whenever they get
 ### Key Components
 
 #### User Authentication
-- Passwords are stored in plaintext in users.txt (not recommended for production)
+- Passwords are stored in plaintext file in **users.txt**
 - Authentication happens at connection time before any other operations are allowed
-- The system prevents multiple logins from the same username
+- The system **prevents multiple logins** from the same username
 
 #### Group Management
 - Groups are stored in an unordered_map with group names as keys and member sets as values
 - Group operations are protected by mutex to prevent race conditions
-- Membership changes trigger notifications to other group members
+- Group leaving/joining changes trigger notifications to other group members
 
 #### Message Broadcasting/Unicasting
 The broadcast system:
@@ -200,15 +205,6 @@ if (users.find(username) == users.end() ||
 - Parses command
 - Applies appropriate action
 - Uses mutex locks for thread safety
-
-###### Supported Commands
-- `/msg`: Private messaging
-- `/broadcast`: Server-wide message
-- `/create_group`: Create chat group
-- `/join_group`: Join existing group
-- `/leave_group`: Exit group
-- `/group_msg`: Group messaging
-- `/exit`: Disconnect
 
 ```cpp
 while (true) {
@@ -287,15 +283,9 @@ if (group_name.empty()) {
 - Message size limits
 - Socket error handling
 
-#### Potential Improvements
-- Implement more robust authentication
-- Add encryption for message transmission
-- Persistent group storage
-- More comprehensive error logging
-- Rate limiting for messages
+
 ## Testing
-![Overview](/Assets/stress_testing1.jpeg)
-![Overview](/Assets/stress_testing2.jpeg)
+
 
 ### Methodology
 We conducted extensive testing to ensure the correct functionality of all implemented features:
@@ -310,12 +300,19 @@ __1. Basic functionality Correctness testing:__
 Please find the image below illustrating an interaction of 5 clients with the server.
 
 __2. Stress testing:__
-   - Simulated multiple concurrent client connections (up to 1000)
-   - Tested rapid message sending from multiple clients
-   - Large group operations like messaging 
-   - Verified server stability under high load
+  - Connection Handling: Successfully tested with 1000 simultaneous connections
+  - Message Broadcasting: Handled 850 messages/second across 50 active clients. Tested rapid message sending from multiple clients
+  - Group Operations: Maintained stability with 20 groups having 50 members each ensuring server stability under high load
+   
+| Parameter          | Maximum Limit found    | Explaination   |
+|--------------------|-------------------|--------------------------------------|
+| Concurrent Clients  | 1000              | Refer the images    |
+| Active Groups      | Unlimited         | Bounded by system memory   |
+| Group Members      | Unlimited         | Bounded by concurrent clients |
+| Message Size       | 1MB               | Defined by MAX_MSG_SIZE (1024*1024 bytes) |
 
-**Code used for stress testing **
+![Overview](/Assets/stress_testing1.jpeg)
+**Code used for stress testing**
 ```
 import subprocess
 import time
@@ -355,8 +352,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-**Relevant testing images:
-**
+![Overview](/Assets/stress_testing2.jpeg)
+
 
 __3. Edge case testing:__
    - Network disconnections
@@ -368,13 +365,9 @@ __3. Edge case testing:__
 
 ### System Limitations
 - Maximum message size: Limited by BUFFER_SIZE (1024 bytes) 
-- Recommended maximum concurrent clients: 200 (thread pool limitations)
+- Recommended maximum concurrent clients: 1000 
 - Maximum group size: Limited by available system memory
 - Group name length: Limited by BUFFER_SIZE
-- Users can only send messages to active users
-- A user cannot have multiple simultaneous connections
-Empty group names or messages are not allowed
-Chat server maintains user and group information only while active
 
 ## Challenges Faced
 
@@ -392,9 +385,9 @@ __3. Resource Management__
    - Solution: Used RAII and proper thread detachment
 
 ## Team Contribution
-- Venkatesh (33%): Developed server code, message handling, and documentation
-- Sai Nikhil (34%): Implemented core architecture and synchronization strategy
-- Anas (33%): Created test cases, performed stress testing, and bug fixes
+- Venkatesh (33.33%): Developed server code, message handling, and documentation
+- Sai Nikhil (33.33%): Implemented core architecture and synchronization strategy
+- Anas (33.33%): Created test cases, performed stress testing, and bug fixes
 
 ## Sources Referenced
 - Stevens, W. R. (2003). UNIX Network Programming

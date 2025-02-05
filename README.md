@@ -136,29 +136,163 @@ The broadcast system:
  -  Handles partial sends and network errors
    
 
-### Code Flow
-__1. Server startup:__
-   - Load user credentials
-   - Create and bind socket
-   - Start accepting connections
+### Chat Server Code Flow
 
-__2. Client connection:__
-   - Accept connection
-   - Spawn a new thread running handle_client
-   - Authenticate user
-   - Enter message processing loop
+#### 1. Server Startup Process
 
-__3. Message processing:__
-   - Parse command
-   - Acquire necessary locks
-   - Execute command
-   - Broadcast/send responses
-   - Release locks
-     
-__4. Client disconnection:__
-   - Handle client disconnections  
-   - clean up resources
+##### Initialization Steps
+- Loads user credentials from `users.txt`
+- Creates a TCP socket
+- Configures socket options
+- Binds to network address
+- Starts listening for connections
 
+##### Key Initialization Code
+```cpp
+    load_users();  // Load user credentials
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    bind(server_socket, (sockaddr*)&server_addr, sizeof(server_addr));
+    listen(server_socket, 5);  // Queue up to 5 pending connections
+```
+
+#### 2. Client Connection Workflow
+
+##### Connection Acceptance
+- Continuously listens for incoming client connections
+- When a connection is received, creates a new thread
+- Each thread runs `handle_client()` function independently
+
+```cpp
+while (true) {
+    int client_socket = accept(server_socket, ...);
+    thread t(handle_client, client_socket);
+    t.detach();  // Allow thread to run independently
+}
+```
+
+#### 3. Authentication Process
+
+##### User Verification Steps
+1. Prompt for username
+2. Prompt for password
+3. Validate against stored credentials
+4. Check for existing active session
+5. Reject if authentication fails
+
+```cpp
+// Authentication validation
+if (users.find(username) == users.end() || 
+    users[username] != password) {
+    // Send authentication failure message
+    close(client_socket);
+    return;
+}else if(active_users[username] == true){
+    // Send already logged in message
+    close(client_socket);
+    return;
+}
+```
+
+#### 4. Message Processing Loop
+
+##### Command Handling Mechanism
+- Receives client messages
+- Parses command
+- Applies appropriate action
+- Uses mutex locks for thread safety
+
+###### Supported Commands
+- `/msg`: Private messaging
+- `/broadcast`: Server-wide message
+- `/create_group`: Create chat group
+- `/join_group`: Join existing group
+- `/leave_group`: Exit group
+- `/group_msg`: Group messaging
+- `/exit`: Disconnect
+
+```cpp
+while (true) {
+    recv(client_socket, buffer, BUFFER_SIZE, 0);
+    istringstream iss(message);
+    string command;
+    iss >> command;
+    // Command processing switch-like logic
+    if (command == "/msg") {
+        send_private_message(client_socket, recipient, message);
+    } else if (command == "/broadcast") {
+        broadcast_message(message);
+    }
+    // ... other command handlers
+}
+```
+
+#### 5. Client Disconnection Handling
+
+##### Resource Cleanup
+- Remove client from active connections
+- Clear group memberships
+- Update active user status
+- Close socket
+- Notify other users
+
+```cpp
+// Disconnection process
+remove_client_from_groups(client_socket);
+clients.erase(client_socket);
+active_users[username] = false;
+close(client_socket);
+broadcast_message(username + " has left the chat.");
+```
+
+#### Concurrency and Thread Safety
+
+##### Synchronization Mechanisms
+- `mutex` for protecting shared resources
+- `lock_guard` for automatic lock management
+- Separate mutexes for:
+  - Client list
+  - Group management
+  - Active user tracking
+
+```cpp
+// Example of thread-safe operation
+{
+    lock_guard<mutex> lock(clients_mutex);
+    clients[client_socket] = username;
+}
+```
+
+#### Error Handling Approaches
+
+##### Error Management
+- Validate user inputs
+- Provide meaningful error messages
+- Gracefully handle network interruptions
+- Prevent unauthorized actions
+
+```cpp
+// Error handling example
+if (group_name.empty()) {
+    send_all(client_socket, 
+             "Error: Group name cannot be empty", 
+             strlen("Error: Group name cannot be empty"));
+}
+```
+
+#### Security Considerations
+
+##### Basic Security Measures
+- Prevent multiple logins
+- Simple username/password authentication
+- Message size limits
+- Socket error handling
+
+#### Potential Improvements
+- Implement more robust authentication
+- Add encryption for message transmission
+- Persistent group storage
+- More comprehensive error logging
+- Rate limiting for messages
 ## Testing
 ![Overview](/Assets/stress_testing1.jpeg)
 ![Overview](/Assets/stress_testing2.jpeg)

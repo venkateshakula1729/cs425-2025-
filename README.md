@@ -3,6 +3,11 @@
 ## Project Description
 This project implements a TCP-based chat server supporting multiple concurrent clients, message transfer(broadcast/unicast), and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system. 
 
+## Team Members
+Venkatesh Akula (220109)
+Mohammed Anas (220654)
+Sai Nikhil (221095)
+
 ## File structure
 ```bash
 
@@ -374,19 +379,19 @@ __3. <ins>Edge case testing:</ins>__
 
 ### Technical Challenges
 __1. Message Fragmentation__
-   - Problem: TCP stream could split messages
-   - Solution: Implemented send_all and kept a threshold for message size
+   - **Problem**: TCP stream could split messages
+   - **Solution**: Implemented send_all and kept a threshold for message size
      
 __2. Race Conditions__
-   - Problem: Concurrent access to shared data structures
-   - Solution: Implemented fine-grained mutex protection
+   - **Problem**: Concurrent access to shared data structures
+   - **Solution**: Implemented fine-grained mutex protection
 
 __3. Resource Management__
-   - Problem: Thread cleanup for disconnected clients
-   - Solution: Once the client is disconnected, all resources allocated to him are removed and proper thread detachment done
+   - **Problem**: Thread cleanup for disconnected clients
+   - **Solution**: Once the client is disconnected, all resources allocated to him are removed and proper thread detachment done
 __4. Binding issue__
-   - Problem: Immediate login after disconnection caused binding error
-   - Solution: It is due to port not being released quickly DO-REUSEADDR option is used and properly handled
+   - **Problem**: Immediate login after disconnection caused binding error
+   - **Solution**: It is due to port not being released quickly DO-REUSEADDR option is used and properly handled
      
 ## Team Contribution
 - Venkatesh (33.33%): Developed server code, message handling, and documentation

@@ -57,7 +57,7 @@ When prompted, enter the username and password for each client present in 'users
 
 ## Features Implemented
 
-We have implemented all the features described in the assignment. Some important functionalities are mentioned below.
+We have implemented **all the features** described in the assignment. Some important functionalities are mentioned below.
 
 ### Core Functionality
 - Multi-threaded server architecture supporting concurrent client connections
@@ -168,6 +168,7 @@ __1. Basic functionality Correctness testing:__
    - Checked group creation, joining, and messaging functionality
    - Concurrent client handling
    - Ensured proper handling of client disconnections
+Please find the image below illustrating an interaction of 5 clients with the server.
 
 __2. Stress testing:__
    - Simulated multiple concurrent client connections (up to 50)
@@ -175,7 +176,7 @@ __2. Stress testing:__
    - Large group operations
    - Verified server stability under high load
 
-Code for stress testing 
+**Code used for stress testing **
 ```
 import subprocess
 import time
@@ -215,7 +216,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
+**Relevant testing images:
+**
 
 __3. Edge case testing:__
    - Network disconnections

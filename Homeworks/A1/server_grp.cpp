@@ -17,6 +17,7 @@
 
 using namespace std;
 
+#define MAX_MSG_SIZE 1024*1024
 #define BUFFER_SIZE 1024
 #define PORT 12345
 #define USERS_FILE "users.txt"
@@ -24,7 +25,7 @@ using namespace std;
 mutex clients_mutex;
 mutex groups_mutex;
 mutex active_users_mutex;
-mutex client_groups_mutex;
+// mutex client_groups_mutex;
 
 unordered_map<int, string> clients;
 unordered_map<string, string> users;
@@ -45,9 +46,13 @@ void load_users() {
 }
 
 ssize_t send_all(int socket, const char* buffer, size_t length) {
+    if(length > MAX_MSG_SIZE){
+        send(socket, "Error: Message too long.", strlen("Error: Message too long."), 0);
+        return -1;
+    }
     size_t total_sent = 0;  // Bytes sent so far
     while (total_sent < length) {
-        ssize_t bytes_sent = send(socket, buffer + total_sent, length - total_sent, 0);
+        ssize_t bytes_sent = send(socket, buffer + total_sent, BUFFER_SIZE, 0);
         
         if (bytes_sent < 0) {
             if (errno == EINTR) {
@@ -68,7 +73,7 @@ void remove_client_from_groups(int client_socket) {
         return;  // Client is not in any group
     }
     std::lock_guard<std::mutex> lock(groups_mutex);
-    std::lock_guard<std::mutex> lock(client_groups_mutex);
+    // std::lock_guard<std::mutex> lock(client_groups_mutex);
 
     for (const string& group_name : client_groups[client_socket]) {
         groups[group_name].erase(client_socket);  // Remove client from the group
@@ -231,7 +236,7 @@ void handle_client(int client_socket) {
                 continue;
             }
             std::lock_guard<std::mutex> lock(groups_mutex);
-            std::lock_guard<std::mutex> lock(client_groups_mutex);
+            // std::lock_guard<std::mutex> lock(client_groups_mutex);
             if (groups.find(group_name) != groups.end()) {
                 // Check if already in group
                 if (groups[group_name].find(client_socket) != groups[group_name].end()) {
@@ -337,6 +342,12 @@ int main() {
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(PORT);
     server_addr.sin_addr.s_addr = INADDR_ANY;
+
+    int opt = 1;
+    if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+        cerr << "setsockopt failed";
+        return 1;
+    }
 
     // Bind the socket to the address
     if (bind(server_socket, (sockaddr*)&server_addr, sizeof(server_addr)) < 0) {

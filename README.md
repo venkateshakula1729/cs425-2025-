@@ -161,7 +161,7 @@ __4. Client disconnection:__
 
 ## Testing
 ![Overview](/Assets/stress_testing1.jpeg)
-![Overview](/Assets/stress_testing1.jpeg)
+![Overview](/Assets/stress_testing2.jpeg)
 
 ### Methodology
 We conducted extensive testing to ensure the correct functionality of all implemented features:

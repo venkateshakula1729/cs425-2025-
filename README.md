@@ -84,7 +84,7 @@ The server responds to the following commands:
 We decided to open a new thread for each client connection to allow every client to send and receive messages without blocking any other client. This may cause higher memory overhead for a large number of connections but will have a **lesser response time** and greatly ease concurrent operations. This allows us easier state management where thread-local storage naturally separates client state
 When a client disconnects, we remove them from all groups they've joined and clean up associated resources. This ensures that groups only contain active members and prevents resource leaks.
 
-**Why Not Processes?:** Threads are lightweight compared to processes and share the same memory space, making it easier to manage shared resources like client lists and group data.
+>**Why Not Processes?:** Threads are lightweight compared to processes and share the same memory space, making it easier to manage shared resources like client lists and group data.
 
 ### Synchronization Strategy 
 We use mutex locks to protect shared resources such as client lists, group memberships, and active user status. 
@@ -93,11 +93,16 @@ The server uses three main mutex locks to handle concurrent access:
 2. `groups_mutex`: Guards the groups data structure
 3. `active_users_mutex`: Protects the active users tracking system
    
-**Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
+>**Why Synchronization?:** Without synchronization, multiple threads could access and modify shared data simultaneously, leading to inconsistent states or crashes.
 This granular locking approach was chosen over a single global lock to improve concurrent performance by allowing non-conflicting operations to proceed in parallel. This prevents race conditions and ensures data integrity in a multi-threaded environment.
 
 ### Buffer Size
 We set a fixed buffer size (1024 bytes) for message transmission. This decision balances between allowing reasonably sized messages and preventing excessive memory usage or potential buffer overflow attacks.
+
+### Empty group handle
+We have decided to **remove** all the empty groups dynamically whenever they get created by taking inspiration from **Whatsapp**. 
+
+### 
 
 ### 
 ## Implementation Details
@@ -123,15 +128,13 @@ We set a fixed buffer size (1024 bytes) for message transmission. This decision 
 - Group operations are protected by mutex to prevent race conditions
 - Membership changes trigger notifications to other group members
 
-#### Message Broadcasting
+#### Message Broadcasting/Unicasting
 The broadcast system:
  -  Acquires necessary locks
  -  Iterates through connected clients
  -  Sends messages using send_all for reliability
  -  Handles partial sends and network errors
    
-### Message Delivery
-I implemented a reliable message delivery system using the `send_all` function that ensures complete message transmission even if the underlying TCP send calls only transmit partial data. This was crucial for maintaining message integrity in a chat application.
 
 ### Code Flow
 __1. Server startup:__
@@ -157,6 +160,8 @@ __4. Client disconnection:__
    - clean up resources
 
 ## Testing
+![Overview](/Assets/stress_testing1.jpeg)
+![Overview](/Assets/stress_testing1.jpeg)
 
 ### Methodology
 We conducted extensive testing to ensure the correct functionality of all implemented features:
@@ -171,9 +176,9 @@ __1. Basic functionality Correctness testing:__
 Please find the image below illustrating an interaction of 5 clients with the server.
 
 __2. Stress testing:__
-   - Simulated multiple concurrent client connections (up to 50)
+   - Simulated multiple concurrent client connections (up to 1000)
    - Tested rapid message sending from multiple clients
-   - Large group operations
+   - Large group operations like messaging 
    - Verified server stability under high load
 
 **Code used for stress testing **

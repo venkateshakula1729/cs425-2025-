@@ -51,7 +51,7 @@ When prompted, enter the username and password for each client present in 'users
 - `/leave_group <group_name>`: Leave a group
 - `/exit`: Disconnect from the server
 
-**Note:** Ensure the `users.txt` file is in the same directory as the server executable, containing valid username:password pairs.
+> **Note:**  Ensure the `users.txt` file is in the same directory as the server executable, containing valid username:password pairs.
 
 
 ## Features Implemented
@@ -173,6 +173,48 @@ __2. Stress testing:__
    - Tested rapid message sending from multiple clients
    - Large group operations
    - Verified server stability under high load
+
+Code for stress testing 
+```
+import subprocess
+import time
+import threading
+
+def read_users_from_file(filename):
+    users = []
+    with open(filename, 'r') as file:
+        for line in file:
+            username, password = line.strip().split(':')
+            users.append((username, password))
+    return users
+
+def run_client(username, password):
+    subprocess.Popen(["./client_grp"], stdin=subprocess.PIPE, text=True).communicate(
+        input=f"{username}\n{password}\n"
+    )
+    print(f"User {username} connected")
+
+def main():
+    users = read_users_from_file("users.txt")
+    threads = []
+
+    for username, password in users:
+        thread = threading.Thread(target=run_client, args=(username, password))
+        threads.append(thread)
+
+    # Start all threads
+    for thread in threads:
+        thread.start()
+        time.sleep(0.1)  # Small delay to stagger connections
+
+    # Wait for all threads to complete
+    for thread in threads:
+        thread.join()
+
+if __name__ == "__main__":
+    main()
+```
+
 
 __3. Edge case testing:__
    - Network disconnections

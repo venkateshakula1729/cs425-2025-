@@ -143,7 +143,7 @@ The broadcast system:
 
 ### Chat Server Code Flow
 
-#### 1. Server Startup Process
+#### 1. <ins>Server Startup Process</ins>
 
 ##### Initialization Steps
 - Loads user credentials from `users.txt`
@@ -160,7 +160,7 @@ The broadcast system:
     listen(server_socket, 5);  // Queue up to 5 pending connections
 ```
 
-#### 2. Client Connection Workflow
+#### 2. <ins>Client Connection Workflow</ins>
 
 ##### Connection Acceptance
 - Continuously listens for incoming client connections
@@ -175,7 +175,7 @@ while (true) {
 }
 ```
 
-#### 3. Authentication Process
+#### 3. <ins>Authentication Process</ins>
 
 ##### User Verification Steps
 1. Prompt for username
@@ -198,7 +198,7 @@ if (users.find(username) == users.end() ||
 }
 ```
 
-#### 4. Message Processing Loop
+#### 4. <ins>Message Processing Loop</ins>
 
 ##### Command Handling Mechanism
 - Receives client messages
@@ -222,7 +222,7 @@ while (true) {
 }
 ```
 
-#### 5. Client Disconnection Handling
+#### 5. <ins>Client Disconnection Handling</ins>
 
 ##### Resource Cleanup
 - Remove client from active connections
@@ -240,7 +240,7 @@ close(client_socket);
 broadcast_message(username + " has left the chat.");
 ```
 
-#### Concurrency and Thread Safety
+#### 6. <ins>Concurrency and Thread Safety</ins>
 
 ##### Synchronization Mechanisms
 - `mutex` for protecting shared resources
@@ -258,7 +258,7 @@ broadcast_message(username + " has left the chat.");
 }
 ```
 
-#### Error Handling Approaches
+#### 7. <ins>Error Handling Approaches</ins>
 
 ##### Error Management
 - Validate user inputs
@@ -275,7 +275,7 @@ if (group_name.empty()) {
 }
 ```
 
-#### Security Considerations
+#### 8. <ins>Security Considerations</ins>
 
 ##### Basic Security Measures
 - Prevent multiple logins
@@ -287,11 +287,11 @@ if (group_name.empty()) {
 ## Testing
 
 
-### Methodology
+### <ins>Methodology</ins>
 We conducted extensive testing to ensure the correct functionality of all implemented features:
 Correctness Testing:
 
-__1. Basic functionality Correctness testing:__
+__1. <ins>Basic functionality Correctness testing:</ins>__
    - Verified user authentication with valid and invalid credentials
    - Tested private messaging between users
    - Checked group creation, joining, and messaging functionality
@@ -300,7 +300,7 @@ __1. Basic functionality Correctness testing:__
 Please find the image below illustrating an interaction of 5 clients with the server.
 ![Overview](/Assets/correctness_testing.png)
 
-__2. Stress testing:__
+__2. <ins>Stress testing:</ins>__
   - Connection Handling: Successfully tested with 1000 simultaneous connections
   - Message Broadcasting: Handled 850 messages/second across 50 active clients. Tested rapid message sending from multiple clients
   - Group Operations: Maintained stability with 20 groups having 50 members each ensuring server stability under high load
@@ -356,7 +356,7 @@ if __name__ == "__main__":
 ![Overview](/Assets/stress_testing2.jpeg)
 
 
-__3. Edge case testing:__
+__3. <ins>Edge case testing:</ins>__
    - Network disconnections
    - Invalid commands
    - Verified behavior when attempting to join non-existent groups
@@ -365,7 +365,7 @@ __3. Edge case testing:__
 
 
 ### System Limitations
-- Maximum message size: Limited by BUFFER_SIZE (1024 bytes) 
+- Maximum message size: Limited by MAX_MSG_SIZE (1 mega byte) 
 - Recommended maximum concurrent clients: 1000 
 - Maximum group size: Limited by available system memory
 - Group name length: Limited by BUFFER_SIZE

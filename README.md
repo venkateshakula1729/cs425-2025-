@@ -100,6 +100,9 @@ We set a fixed buffer size (1024 bytes) for message transmission. This decision 
 
 ### 
 ## Implementation Details
+
+![Overview ](./Chat server.gif)
+
 ### Key Functions
  1. `handle_client`: Manages individual client connections, processes incoming messages, and routes them appropriately.
  2. `broadcast_message`: Sends a message to all connected clients or members of a specific group.

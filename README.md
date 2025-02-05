@@ -375,20 +375,23 @@ __3. <ins>Edge case testing:</ins>__
 ### Technical Challenges
 __1. Message Fragmentation__
    - Problem: TCP stream could split messages
-   - Solution: Implemented send_all with complete delivery guarantee
-
+   - Solution: Implemented send_all and kept a threshold for message size
+     
 __2. Race Conditions__
    - Problem: Concurrent access to shared data structures
    - Solution: Implemented fine-grained mutex protection
 
 __3. Resource Management__
    - Problem: Thread cleanup for disconnected clients
-   - Solution: Used RAII and proper thread detachment
-
+   - Solution: Once the client is disconnected, all resources allocated to him are removed and proper thread detachment done
+__4. Binding issue__
+   - Problem: Immediate login after disconnection caused binding error
+   - Solution: It is due to port not being released quickly DO-REUSEADDR option is used and properly handled
+     
 ## Team Contribution
 - Venkatesh (33.33%): Developed server code, message handling, and documentation
-- Sai Nikhil (33.33%): Implemented core architecture and synchronization strategy
-- Anas (33.33%): Created test cases, performed stress testing, and bug fixes
+- Sai Nikhil (33.33%): Implemented core architecture and performed stress testing
+- Anas (33.33%): Created test cases, synchronization strategy, and bug fixes
 
 ## Sources Referenced
 - Stevens, W. R. (2003). UNIX Network Programming

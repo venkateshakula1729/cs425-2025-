@@ -298,6 +298,7 @@ __1. Basic functionality Correctness testing:__
    - Concurrent client handling
    - Ensured proper handling of client disconnections
 Please find the image below illustrating an interaction of 5 clients with the server.
+![Overview](/Assets/correctness_testing.png)
 
 __2. Stress testing:__
   - Connection Handling: Successfully tested with 1000 simultaneous connections

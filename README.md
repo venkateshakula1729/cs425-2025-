@@ -391,7 +391,7 @@ __2. Race Conditions__
 __3. Resource Management__
    - **Problem**: Thread cleanup for disconnected clients
    - **Solution**: Once the client is disconnected, all resources allocated to him are removed and proper thread detachment done
-     
+
 __4. Binding issue__
    - **Problem**: Immediate login after disconnection caused binding error
    - **Solution**: It is due to port not being released quickly DO-REUSEADDR option is used and properly handled

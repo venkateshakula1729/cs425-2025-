@@ -296,7 +296,7 @@ if (group_name.empty()) {
 
 ### <ins>Methodology</ins>
 We conducted extensive testing to ensure the correct functionality of all implemented features:
-Correctness Testing:
+
 
 __1. <ins>Basic functionality Correctness testing:</ins>__
    - Verified user authentication with valid and invalid credentials
@@ -411,7 +411,5 @@ I declare that this implementation is our original work. All sources have been p
 
 ## Feedback
 Suggestions for future improvements:
-1. Implement encrypted communications
-2. Add persistent message history
-3. Support file transfers
-4. Add administrative features
+- The assignment was well-structured and helped in understanding multi- threaded socket programming.
+- Some clarifications regarding the expected behavior of group messaging would have been helpful.

@@ -4,11 +4,11 @@
 This project implements a TCP-based chat server supporting multiple concurrent clients, message transfer(broadcast/unicast), and group communication features. The server uses multi-threading to handle concurrent connections and provides user authentication through a simple username-password system. 
 
 ## Team Members
-Venkatesh Akula (220109)
+-Venkatesh Akula (220109)
 
-Mohammed Anas (220654)
+-Mohammed Anas (220654)
 
-Sai Nikhil (221095)
+-Sai Nikhil (221095)
 
 ## File structure
 ```bash

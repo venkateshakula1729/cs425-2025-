@@ -107,7 +107,7 @@ Time taken: 0.014 seconds
 - **First fetches NS records**, then resolves A records.
 - **Handles exceptions like timeouts and invalid domains.**
 
-### 5.Execution
+### 5. Execution
 
 - **Parses command-line arguments** (`iterative` or `recursive`).
 - Calls the appropriate function and **measures execution time**.

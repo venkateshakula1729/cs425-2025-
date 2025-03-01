@@ -126,6 +126,5 @@ Time taken: 0.014 seconds
 
 - This implementation follows the **standard DNS resolution process** as used in real-world DNS resolvers.
 - You can modify the **ROOT\_SERVERS** dictionary to include more root servers.
-- Use \`\`\*\* statements for debugging\*\* if needed.
 
 ---

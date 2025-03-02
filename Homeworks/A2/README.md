@@ -21,7 +21,7 @@ This project implements a **DNS Resolver** that supports both **Iterative** and 
 
 ---
 
-### Not Implemented Features
+## Not Implemented Features
 
 - Handling record types other than A and NS.
 - Caching of previously resolved queries.

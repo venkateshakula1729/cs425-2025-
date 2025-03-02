@@ -13,7 +13,7 @@ ROOT_SERVERS = {
     "192.203.230.10": "Root (e.root-servers.net)"
 }
 
-TIMEOUT = 3  # Timeout in seconds for DNS queries
+TIMEOUT = 3  # Timeout in seconds for each DNS query attempt
 
 def send_dns_query(server, domain):
     """ 
@@ -22,10 +22,12 @@ def send_dns_query(server, domain):
     """
     try:
         query = dns.message.make_query(domain, dns.rdatatype.A)  # Construct the DNS query
-##########
+         # TODO: Send the query using UDP 
+        # Note that above TODO can be just a return statement with the UDP query!
+##########-------TODO-------##########
         response = dns.query.udp(query, server, timeout=TIMEOUT)  # Send query via UDP
-        return response
-##########
+        return response  # Return the DNS response
+##########-------TODO-------##########
     except Exception as e:
         # print(f"[ERROR] Query failed for {server}: {e}")
         return None # If an error occurs (timeout, unreachable server, etc.), return None
@@ -35,9 +37,7 @@ def extract_next_nameservers(response):
     ns_ips = []
     ns_names = []
     
-    if response is None:
-        return ns_ips  # Return empty list if no response
-
+   
     # Extract NS records from the authority section
     for rrset in response.authority:
         if rrset.rdtype == dns.rdatatype.NS:
@@ -45,17 +45,17 @@ def extract_next_nameservers(response):
                 ns_name = rr.to_text()
                 ns_names.append(ns_name) # Extract nameserver hostname
                 print(f"Extracted NS hostname: {ns_name}")
-##########
-    # Resolve NS names to IPs
+##########-------TODO-------##########
+    # Resolve NS names to IP addresses
     for ns_name in ns_names:
         try:
             answer = dns.resolver.resolve(ns_name, "A")  # Get IP of the NS
             for rdata in answer:
-                ns_ips.append(rdata.to_text())
-                print(f"Resolved {ns_name} to {rdata.to_text()}")
+                ns_ips.append(rdata.to_text())   # Store all resolved IPs
+                print(f"Resolved {ns_name} to {rdata.to_text()}")  # Print the resolved message
         except Exception as e:
-            print(f"[WARNING] Failed to resolve {ns_name}: {e}")
-##########
+            print(f"[WARNING] Failed to resolve {ns_name}: {e}")  #  Error handling
+##########-------TODO-------##########
     return ns_ips  # Return list of resolved nameserver IPs
 
 def iterative_dns_lookup(domain):

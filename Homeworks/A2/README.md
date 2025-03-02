@@ -128,7 +128,7 @@ Time taken: 0.014 seconds
 
 ## Error Handling
 
-- **Timeout Handling:** If a nameserver doesn't respond, the query fails gracefully.
+- **Timeout Handling:**  If a server does not respond within 3 seconds, the query fails gracefully.
 - **Invalid Domain Handling:** Catches exceptions when resolving a non-existent domain.
 - **Unreachable Server Handling:** Detects when a nameserver cannot be contacted.
 - **Recursuive Lookup Failure** Catches the exception and prints an error message.

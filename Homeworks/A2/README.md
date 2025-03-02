@@ -139,7 +139,7 @@ Time taken: 0.014 seconds
 
 ### Correctness Testing
 
-- Verified iterative resolution using various domains (e.g., `abc.defg`, `google.com`,`microsoft.com`).
+- Verified iterative resolution using various domains (e.g., `google.com`,`amazon.com`,`abc.xyz` ).
 - Checked error handling for invalid and unreachable domains.
 
 ## Team Contribution

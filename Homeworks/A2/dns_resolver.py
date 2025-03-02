@@ -59,7 +59,11 @@ def extract_next_nameservers(response):
     return ns_ips  # Return list of resolved nameserver IPs
 
 def iterative_dns_lookup(domain):
-    """Performs an iterative DNS resolution from root servers to authoritative servers."""
+    """ 
+    Performs an iterative DNS resolution starting from root servers.
+    It queries root servers, then TLD servers, then authoritative servers,
+    following the hierarchy until an answer is found or resolution fails.
+    """    
     print(f"[Iterative DNS Lookup] Resolving {domain}")
 
     next_ns_list = list(ROOT_SERVERS.keys())  # Start with root servers
@@ -77,11 +81,15 @@ def iterative_dns_lookup(domain):
                 print(f"[SUCCESS] {domain} -> {response.answer[0][0]}")
                 return
             
-            # Extract next set of nameservers if no direct answer is found
+            # Extract the next set of nameservers if no direct answer is found
             next_ns_list = extract_next_nameservers(response)
-##########
+            # if(not next_ns_list): #query next nameserver in the list if the list extracted is empty
+            #     next_ns_list.pop(0)
+            #     print("[EMPTY_LIST] Moving to the next nameserver in the list")
+            #     continue
+##########-------TODO-------##########
             stage = "TLD" if stage == "ROOT" else "AUTH"  # Move to the next stage
-##########        
+##########-------TODO-------##########
         else:
             print(f"[ERROR] Query failed for {ns_ip}")
             return  # Stop if query fails
@@ -93,9 +101,9 @@ def recursive_dns_lookup(domain):
     print(f"[Recursive DNS Lookup] Resolving {domain}")
 
     try:
-##########
+##########-------TODO-------##########
         answer = dns.resolver.resolve(domain, "NS")  # Perform recursive query
-##########
+##########-------TODO-------##########
         for rdata in answer:
             print(f"[SUCCESS] {domain} -> {rdata}")
         

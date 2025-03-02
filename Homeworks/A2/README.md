@@ -49,14 +49,14 @@ The script accepts two arguments:
 2. **Domain Name** (e.g., `google.com`)
 
 ```sh
-python3 dnsresolver.py <mode> <domain name>
+python3 dns_resolver.py <mode> <domain name>
 ```
 
 
 #### **Example 1: Iterative DNS Resolution**
 
 ```sh
-python3 dnsresolver.py iterative google.com
+python3 dns_resolver.py iterative google.com
 ```
 
 ##### **Expected Output:**
@@ -77,7 +77,7 @@ Time taken: 0.650 seconds
 #### **Example 2: Recursive DNS Resolution**
 
 ```sh
-python3 dnsresolver.py recursive google.com
+python3 dns_resolver.py recursive google.com
 ```
 
 ##### **Expected Output:**

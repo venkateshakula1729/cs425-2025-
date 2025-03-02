@@ -83,10 +83,7 @@ def iterative_dns_lookup(domain):
             
             # Extract the next set of nameservers if no direct answer is found
             next_ns_list = extract_next_nameservers(response)
-            # if(not next_ns_list): #query next nameserver in the list if the list extracted is empty
-            #     next_ns_list.pop(0)
-            #     print("[EMPTY_LIST] Moving to the next nameserver in the list")
-            #     continue
+
 ##########-------TODO-------##########
             stage = "TLD" if stage == "ROOT" else "AUTH"  # Move to the next stage
 ##########-------TODO-------##########

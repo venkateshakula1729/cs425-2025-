@@ -142,9 +142,9 @@ Time taken: 0.014 seconds
 - Checked error handling for invalid and unreachable domains.
 
 ## Team Contribution
-- Venkatesh (220109)[**`33.33%`**]
-- Sai Nikhil (221095)[**`33.33%`**]
-- Anas (220654)[**`33.33%`**]
+- Venkatesh (220109) [**`33.33%`**]
+- Sai Nikhil (221095) [**`33.33%`**]
+- Anas (220654) [**`33.33%`**]
 
 All three of us contributed equally to the assignment and README.
 

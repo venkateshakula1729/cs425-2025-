@@ -41,7 +41,7 @@ The script accepts two arguments:
 1. **Mode** (`iterative` or `recursive`)
 2. **Domain Name** (e.g., `google.com`)
 
-   ```sh
+```sh
 python3 dnsresolver.py <mode> <domain name>
 ```
 

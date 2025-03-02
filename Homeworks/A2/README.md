@@ -5,13 +5,14 @@
 This project implements a **DNS Resolver** that supports both **Iterative** and **Recursive** DNS lookups using Python and the `dnspython` library. The iterative lookup follows the standard DNS resolution hierarchy (Root → TLD → Authoritative), while the recursive lookup utilizes the system's DNS resolver to fetch the final result.
 
 ## Team Members
-- Venkatesh Akula (220109)
 
-- Mohammed Anas (220654)
+| **Name**          | **Roll Number**     | **Email**          |
+| ----------------- | ------------------- | ------------------ |
+| Venkatesh Akula      | 220109     | akulav22@iitk.ac.in      |
+| Mohammed Anas  | 220654 | mohdanas22@iitk.ac.in |
+| Sai Nikhil  | 221095 | ssain22@iitk.ac.in |
 
-- Sai Nikhil (221095)
-
-## Features
+## Implemented Features
 
 - **Iterative DNS Resolution**: Manually queries Root, TLD, and Authoritative servers to resolve a domain.
 - **Recursive DNS Resolution**: Uses the system's DNS resolver to fetch the final IP.
@@ -19,6 +20,11 @@ This project implements a **DNS Resolver** that supports both **Iterative** and 
 - **Command-line Interface**: Supports execution via the terminal with user-specified parameters.
 
 ---
+
+### Not Implemented Features
+
+- Handling record types other than A and NS.
+- Caching of previously resolved queries.
 
 ## Installation
 

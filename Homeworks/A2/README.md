@@ -129,10 +129,17 @@ Time taken: 0.014 seconds
 ## Error Handling
 
 - **Timeout Handling:**  If a server does not respond within 3 seconds, the query fails gracefully.
-- **Invalid Domain Handling:** Catches exceptions when resolving a non-existent domain.
+- **Invalid Domain Handling(NXDOMAIN):** Catches exceptions when resolving a non-existent domain.
 - **Unreachable Server Handling:** Detects when a nameserver cannot be contacted.
-- **Recursuive Lookup Failure** Catches the exception and prints an error message.
+- **Recursuive Lookup Failure:** Catches the exception and prints an error message.
+- **Invalid input:**  Incorrect command-line arguments.
+  
+Example error output:
 
+```
+[ERROR] Query failed for ROOT server 198.41.0.4
+[ERROR] Resolution failed.
+```
 ---
 
 ## **Testing**

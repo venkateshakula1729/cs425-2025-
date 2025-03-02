@@ -96,30 +96,30 @@ Time taken: 0.014 seconds
 
 ## Code Explanation
 
-### 1. Send_dns_query
+### 1. <u>Send_dns_query</u>
 
 - Sends a DNS query to a given nameserver for an **A record**.
 - Uses **UDP** for communication with a timeout mechanism.
 - Returns the DNS response or `None` in case of failure.
 
-### 2. Extract_next_nameservers
+### 2. <u>Extract_next_nameservers</u>
 
 - Extracts **NS (nameserver) records** from the authority section.
 - Resolves the extracted NS hostnames into **IP addresses**.
 
-### 3. Iterative_dns_lookup
+### 3. <u>Iterative_dns_lookup</u>
 
 - **Starts at Root DNS servers** and iteratively queries the next set of servers.
 - **Moves from Root → TLD → Authoritative** servers to resolve the domain.
 - **Stops when an answer is found** or if resolution fails.
 
-### 4. Recursive_dns_lookup
+### 4. <u>Recursive_dns_lookup</u>
 
 - **Directly queries the system's DNS resolver** to fetch results.
 - **First fetches NS records**, then resolves A records.
 - **Handles exceptions like timeouts and invalid domains.**
 
-### 5. Execution
+### 5. <u>Execution</u>
 
 - **Parses command-line arguments** (`iterative` or `recursive`).
 - Calls the appropriate function and **measures execution time**.
@@ -127,6 +127,8 @@ Time taken: 0.014 seconds
 ---
 
 ## Error Handling
+
+We have included **multiple levels of error handling** to ensure robustness:
 
 | **Error Type**          | **Handling Mechanism** |
 |-------------------------|-----------------------|

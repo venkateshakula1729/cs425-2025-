@@ -134,6 +134,13 @@ Time taken: 0.014 seconds
 
 ---
 
+## **Testing**
+
+### Correctness Testing
+
+- Verified iterative resolution using various domains (e.g., `abc.defg`, `google.com`,`microsoft.com`).
+- Checked error handling for invalid and unreachable domains.
+
 ## Team Contribution
 - Venkatesh (220109)[**`33.33%`**]
 - Sai Nikhil (221095)[**`33.33%`**]
@@ -141,9 +148,13 @@ Time taken: 0.014 seconds
 
 All three of us contributed equally to the assignment and README.
 
-## Additional Notes
+## **Declaration**
 
-- This implementation follows the **standard DNS resolution process** as used in real-world DNS resolvers.
-- You can modify the **ROOT\_SERVERS** dictionary to include more root servers.
+We hereby declare that our code is original and does not involve plagiarism. The assignment was completed following the academic integrity guidelines.
+
+## **Feedback**
+
+This assignment gave us a hands-on learning experience in understanding and implementing DNS resolution mechanisms!
+We would like to express our gratitude to the Instructor and TAs for their continuous support throughout the assignment.
 
 ---

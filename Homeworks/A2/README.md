@@ -133,7 +133,16 @@ Time taken: 0.014 seconds
 - **Unreachable Server Handling:** Detects when a nameserver cannot be contacted.
 - **Recursuive Lookup Failure:** Catches the exception and prints an error message.
 - **Invalid input:**  Incorrect command-line arguments.
-  
+
+| **Error Type**          | **Handling Mechanism** |
+|-------------------------|-----------------------|
+| Timeout Handling | query fails if no response within 3 seconds. |
+| Unreachable Server Handling | Moves to the next available nameserver. |
+| Invalid Domain (NXDOMAIN) | Catches exceptions when resolving a non-existent domain. |
+| No Response from DNS Server | Stops resolution and displays an error. |
+| Recursive Lookup Failure | Catches the exception and prints an error message. |
+| Invalid input |  Incorrect command-line arguments. |
+
 Example error output:
 
 ```

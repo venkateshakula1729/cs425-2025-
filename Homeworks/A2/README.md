@@ -140,7 +140,7 @@ Time taken: 0.014 seconds
 Example error output:
 
 ```
-[ERROR] Query failed for ROOT server 198.41.0.4
+[ERROR] Query failed for 191.31.0.4
 [ERROR] Resolution failed.
 ```
 ---

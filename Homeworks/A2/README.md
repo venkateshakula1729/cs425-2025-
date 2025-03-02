@@ -19,12 +19,13 @@ This project implements a **DNS Resolver** that supports both **Iterative** and 
 - **Error Handling**: Handles timeout errors, unreachable servers, and invalid domains.
 - **Command-line Interface**: Supports execution via the terminal with user-specified parameters.
 
----
 
 ## Not Implemented Features
 
 - Handling record types other than A and NS.
 - Caching of previously resolved queries.
+  
+---
 
 ## Installation
 

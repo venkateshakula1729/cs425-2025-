@@ -133,6 +133,13 @@ Time taken: 0.014 seconds
 
 ---
 
+## Team Contribution
+- Venkatesh (220109)[**`33.33%`**]
+- Sai Nikhil (221095)[**`33.33%`**]
+- Anas (220654)[**`33.33%`**]
+
+All three of us contributed equally to the assignment and README.
+
 ## Additional Notes
 
 - This implementation follows the **standard DNS resolution process** as used in real-world DNS resolvers.

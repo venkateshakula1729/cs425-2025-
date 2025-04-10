@@ -4,8 +4,12 @@
 
 The project simulates the **TCP three-way handshake** process using raw sockets in C++. The client-side logic is implemented in the `client.cpp` file, which sends a SYN packet to the server, waits for an ACK response, and finally sends an ACK packet to the server to complete the handshake.
 
-The client is implemented with the help of raw sockets, thereby communicating with its counterpart in `server.cpp` to achieve low-level control over the entire TCP/IP stack. The goal of this project is purely educational, so that such a wonderful and complex process as TCP can be easily understood at the packet level.
+The client is implemented with the help of raw sockets, thereby communicating with its counterpart in `server.cpp` to achieve low-level control over the entire TCP/IP stack. The goal of this project is to understand the complex process of TCP at the packet level.
 
+**Objective:**
+1. Send an **SYN** packet to the server, specifying a particular sequence number.
+2. Receive and validate a **SYN-ACK** response from the server.
+3. Send a final **ACK** packet to complete the handshake.
 ---
 
 ## Team Members

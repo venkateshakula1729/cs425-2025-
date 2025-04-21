@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <vector>
 #include <limits>
 #include <queue>
@@ -9,8 +8,9 @@
 
 using namespace std;
 
-const int INF = 9999;
+const int INF = 9999; // A constant to represent infinity
 
+// Print the Distance Vector Routing table for a node
 void printDVRTable(int node, const vector<vector<int>>& table, const vector<vector<int>>& nextHop) {
     cout << "Node " << node << " Routing Table:\n";
     cout << "Dest\tCost\tNext Hop\n";
@@ -23,19 +23,20 @@ void printDVRTable(int node, const vector<vector<int>>& table, const vector<vect
     cout << endl;
 }
 
+// Simulate the Distance Vector Routing (DVR) algorithm
 void simulateDVR(const vector<vector<int>>& graph) {
     int n = graph.size();
-    vector<vector<int>> dist = graph;
-    vector<vector<int>> nextHop(n, vector<int>(n));
+    vector<vector<int>> dist = graph; // Distance matrix
+    vector<vector<int>> nextHop(n, vector<int>(n)); // Next hop matrix
 
-    //TODO: Complete this
+    // Initialize distance and next hop
     for (int u = 0; u < n; ++u) {
         for (int v = 0; v < n; ++v) {
             if (u == v) {
                 dist[u][v] = 0;
                 nextHop[u][v] = -1; // No next hop for self
             } else if (dist[u][v] != INF) {
-                nextHop[u][v] = v;
+                nextHop[u][v] = v; // Directly connected neighbor
             } else {
                 nextHop[u][v] = -1; // No valid next hop
             }
@@ -46,7 +47,7 @@ void simulateDVR(const vector<vector<int>>& graph) {
     cout << "--- Initial DVR Tables ---\n";
     for (int i = 0; i < n; ++i) printDVRTable(i, dist, nextHop);
 
-    // Distance Vector algorithm: exchange until convergence
+    // Distance Vector algorithm loop until no updates
     bool updated;
     int iteration = 0;
     do {
@@ -62,13 +63,14 @@ void simulateDVR(const vector<vector<int>>& graph) {
                     int alt = dist[u][v] + dist[v][dest];
                     if (alt < newDist[u][dest]) {
                         newDist[u][dest] = alt;
-                        newNext[u][dest] = nextHop[u][v];
+                        newNext[u][dest] = nextHop[u][v]; // Use v as intermediate hop
                         updated = true;
                     }
                 }
             }
         }
 
+        // If there were updates, apply them and print updated tables
         if (updated) {
             iteration++;
             dist.swap(newDist);
@@ -82,12 +84,15 @@ void simulateDVR(const vector<vector<int>>& graph) {
     for (int i = 0; i < n; ++i) printDVRTable(i, dist, nextHop);
 }
 
+// Print the Link State Routing (LSR) table for a node
 void printLSRTable(int src, const vector<int>& dist, const vector<int>& prev) {
     cout << "Node " << src << " Routing Table:\n";
     cout << "Dest\tCost\tNext Hop\n";
     for (int i = 0; i < dist.size(); ++i) {
         if (i == src) continue;
         cout << i << "\t" << dist[i] << "\t";
+
+        // Reconstruct the path to determine the next hop
         int hop = i;
         while (prev[hop] != src && prev[hop] != -1)
             hop = prev[hop];
@@ -96,17 +101,19 @@ void printLSRTable(int src, const vector<int>& dist, const vector<int>& prev) {
     cout << endl;
 }
 
+// Simulate the Link State Routing (LSR) algorithm using Dijkstra’s algorithm
 void simulateLSR(const vector<vector<int>>& graph) {
     int n = graph.size();
     for (int src = 0; src < n; ++src) {
-        vector<int> dist(n, INF);
-        vector<int> prev(n, -1);
-        vector<bool> visited(n, false);
+        vector<int> dist(n, INF); // Distance from source to each node
+        vector<int> prev(n, -1); // Predecessor node in the path
+        vector<bool> visited(n, false); // Visited nodes
         dist[src] = 0;
         
-         //TODO: Complete this
+         // Dijkstra’s algorithm
          for (int iter = 0; iter < n; ++iter) {
             int u = -1, best = INF + 1;
+            // Find unvisited node with smallest distance
             for (int i = 0; i < n; ++i) {
                 if (!visited[i] && dist[i] < best) {
                     best = dist[i]; u = i;
@@ -114,6 +121,8 @@ void simulateLSR(const vector<vector<int>>& graph) {
             }
             if (u == -1) break;
             visited[u] = true;
+
+            // Update distances to neighbors
             for (int v = 0; v < n; ++v) {
                 if (graph[u][v] != INF && !visited[v]) {
                     int alt = dist[u] + graph[u][v];
@@ -126,10 +135,11 @@ void simulateLSR(const vector<vector<int>>& graph) {
         }
 
         
-        printLSRTable(src, dist, prev);
+        printLSRTable(src, dist, prev); // Print LSR table for the source node
     }
 }
 
+// Read graph from input file
 vector<vector<int>> readGraphFromFile(const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
@@ -138,9 +148,10 @@ vector<vector<int>> readGraphFromFile(const string& filename) {
     }
     
     int n;
-    file >> n;
+    file >> n;  // Number of nodes
     vector<vector<int>> graph(n, vector<int>(n));
 
+    // Read adjacency matrix
     for (int i = 0; i < n; ++i)
         for (int j = 0; j < n; ++j)
             file >> graph[i][j];
@@ -150,19 +161,20 @@ vector<vector<int>> readGraphFromFile(const string& filename) {
 }
 
 int main(int argc, char *argv[]) {
+    // Check command-line argument for input file
     if (argc != 2) {
         cerr << "Usage: " << argv[0] << " <input_file>\n";
         return 1;
     }
 
     string filename = argv[1];
-    vector<vector<int>> graph = readGraphFromFile(filename);
+    vector<vector<int>> graph = readGraphFromFile(filename); // Load graph
 
     cout << "\n--- Distance Vector Routing Simulation ---\n";
-    simulateDVR(graph);
+    simulateDVR(graph); // Run DVR simulation
 
     cout << "\n--- Link State Routing Simulation ---\n";
-    simulateLSR(graph);
+    simulateLSR(graph); // Run LSR simulation
 
     return 0;
 }

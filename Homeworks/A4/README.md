@@ -75,41 +75,60 @@ The program outputs:
 
 
 
-## 3  Algorithm Details:
+## 3 Algorithms
 
 ### Distance Vector Routing (DVR)
-
-- Each node maintains a distance vector: the cost to reach every other node.
-- Initially:
+- **Protocol**: Bellman-Ford algorithm
+- **Initialization**:
   - Cost to self = 0
   - Cost to direct neighbors = edge weight
-  - Cost to non-neighbors = ∞
-- Nodes update their vectors by applying **Bellman-Ford**:
-  ```
-  D(i, j) = min over all k ( cost(i, k) + D(k, j) )
-  ```
-- Repeats until no update occurs in an iteration (convergence).
+  - Cost to non-neighbors = ∞ (INF)
+- **Update Rule**:  
+  `D(i, j) = min∀k (cost(i, k) + D(k, j))`
+- **Convergence**: Iterates until no updates occur in a complete pass
 
 ### Link State Routing (LSR)
+- **Protocol**: Dijkstra's algorithm
+- **Requirements**:
+  - Full network topology known to each node
+- **Process**:
+  1. Builds shortest-path tree from each source
+  2. Computes paths to all destinations
+  3. Derives next-hop routers via path tracing
 
-- Each node knows the full network topology.
-- It runs **Dijkstra's algorithm** to compute the shortest path to every node.
-- For each destination, the next hop is traced back using the `prev[]` array from Dijkstra.
+## 4  Code Structure
+
+| Function | Purpose |
+|----------|---------|
+| `readGraphFromFile()` | Parses adjacency matrix from input file |
+| `simulateDVR()` | Performs iterative Bellman-Ford updates until convergence |
+| `simulateLSR()` | Executes Dijkstra's algorithm from every node |
+| `printDVRTable()` | Formats DVR routing tables |
+| `printLSRTable()` | Formats LSR routing tables |
+
+## 5 Implementation Details
+
+### DVR 
+- Uses 3-level nested loops:
+  1. Outer: Source nodes
+  2. Middle: Neighbor nodes
+  3. Inner: Destination nodes
+- Maintains two matrices:
+  - `dist`: Current distance estimates
+  - `nextHop`: Best next hop routers
+
+### LSR 
+- For each node as source:
+  1. Initializes distance and predecessor arrays
+  2. Runs Dijkstra's algorithm:
+     - Selects closest unvisited node
+     - Relaxes all edges
+  3. Builds routing table by tracing paths
 
 
-## 4  Code Walk‑Through
+## 6  Testing
 
-| Function | Role |
-|----------|------|
-| `readGraphFromFile` | Parses the adjacency matrix from the provided file. |
-| `simulateDVR` | Performs iterative **Bellman‑Ford** updates until distance tables converge; prints final routing tables for each node. 3 loops to choose distance, neighbours and the source. Continues till no updates left |
-| `simulateLSR` | Executes **Dijkstra's algorithm** from every node, producing shortest‑path trees and printing routing tables. |
-| `printDVRTable` / `printLSRTable` | Nicely formats the distance/next‑hop information. |
-| `main` | Validates CLI arguments, loads the graph, triggers both simulations in sequence. |
-
-## 5  Testing
-
-We validated the simulator on:
+We have tested the simulator code on:
 
 * **Symmetric & asymmetric weights** to make sure that DVR and LSR both give the same metric results.
 * **Edge cases**: Checking different graph networks - fully‑connected graph, line topology, star topology.
@@ -117,15 +136,15 @@ We validated the simulator on:
 
 All outputs matched hand‑computed routes and Dijkstra checks.
 
-## Team Contribution
+## 7 Team Contribution
 - Venkatesh (33.33%): Documentation, README, extensive testing & validation
 - Sai Nikhil (33.33%): Implemented core architecture and performed stress testing
 - Anas (33.33%): Created test cases, synchronization strategy, and bug fixes
 
-## Sources Referenced
+## 8 Sources Referenced
 - Stevens, W. R. (2003). UNIX Network Programming
 - C++ Concurrency in Action by Anthony Williams
 - Beej's Guide to Network Programming
 
-## Declaration
+## 9 Declaration
 I declare that this implementation is our original work. All sources have been properly referenced, and no code has been plagiarized.

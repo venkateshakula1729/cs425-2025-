@@ -47,24 +47,34 @@ void simulateDVR(const vector<vector<int>>& graph) {
     cout << "--- Initial DVR Tables ---\n";
     for (int i = 0; i < n; ++i) printDVRTable(i, dist, nextHop);
 
-    // Distance Vector algorithm loop until no updates
+    // Distance Vector algorithm loop until no updates (convergence)
     bool updated;
     int iteration = 0;
     do {
-        updated = false;
+        updated = false; // Flag to check if any distance is updated in this iteration
+
+        // Create temporary copies of current distance and nextHop tables
         vector<vector<int>> newDist = dist;
         vector<vector<int>> newNext = nextHop;
 
+        // Iterate over each node u
         for (int u = 0; u < n; ++u) {
+            // Check neighbors v of node u
             for (int v = 0; v < n; ++v) {
-                if (dist[u][v] == INF || u == v) continue;
+                if (dist[u][v] == INF || u == v) continue; // Skip if v is not a neighbor or same node
+
+                // Try to reach every destination 'dest' via neighbor v
                 for (int dest = 0; dest < n; ++dest) {
-                    if (dist[v][dest] == INF) continue;
+                    if (dist[v][dest] == INF) continue; // Skip if v cannot reach dest
+
+                    // Calculate alternative distance to 'dest' via 'v'
                     int alt = dist[u][v] + dist[v][dest];
+
+                    // If the alternative path is shorter, update new distance and next hop
                     if (alt < newDist[u][dest]) {
                         newDist[u][dest] = alt;
-                        newNext[u][dest] = nextHop[u][v]; // Use v as intermediate hop
-                        updated = true;
+                        newNext[u][dest] = nextHop[u][v]; // Set next hop from u to dest via v
+                        updated = true; // Mark that an update occurred
                     }
                 }
             }

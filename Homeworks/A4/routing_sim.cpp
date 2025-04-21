@@ -166,4 +166,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-This paste expires in <1 hour. Public IP access. Share whatever you see with others in seconds with Context.Terms of ServiceReport this

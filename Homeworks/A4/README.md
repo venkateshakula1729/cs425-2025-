@@ -44,8 +44,8 @@ row1_0 row1_1 ...           # adjacency‑matrix row 1
 rown-1_0 ... rown-1_n-1
 ```
 
-* `0` means **no cost** (self‑loop or unused; ignored except on diagonal).
-* `9999` (`INF`) means **no direct link / unreachable**.
+* `0` means **no cost** (no direct link ; ignored except on diagonal).
+* `9999` (`INF`) means **unreachable**.
 * Any other positive integer is the **link cost** (bandwidth, latency, etc.).
 
 ### 2.2 Example Input (`sample.txt`)

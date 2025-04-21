@@ -28,8 +28,3 @@
 
 ## Declaration
 I declare that this implementation is our original work. All sources have been properly referenced, and no code has been plagiarized.
-
-## Feedback
-Suggestions for future improvements:
-- The assignment was well-structured and helped in understanding multi- threaded socket programming.
-- Some clarifications regarding the expected behavior of group messaging would have been helpful.

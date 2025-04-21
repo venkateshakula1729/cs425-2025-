@@ -66,7 +66,7 @@ After compiling the code, execute the program as follows:
 ./routing_sim input.txt
 ```
 
-Where `inputfile.txt` is the path to the file containing the adjacency matrix.
+Where `input.txt` is the path to the file containing the adjacency matrix.
 
 
 The program outputs:

@@ -14,7 +14,7 @@ This project simulates two foundational routing algorithms—**Distance Vector R
 
 ## Files:
 
-* `sim.cpp`: Main source file that simulates both DVR and LSR algorithms.
+* `routing_sim.cpp`: Main source file that simulates both DVR and LSR algorithms.
 * `Makefile`: A simple build script to compile and run the simulator.
 * `README.md`: This documentation file explaining the design, execution, and expected behavior.
 
@@ -27,7 +27,7 @@ This project simulates two foundational routing algorithms—**Distance Vector R
    ```bash
    make
    ```
-   This will compile the project and create an executable named `sim`.
+   This will compile the project and create an executable named `routing_sim`.
 
 ---
 
@@ -63,14 +63,14 @@ rown-1_0 ... rown-1_n-1
 After compiling the code, execute the program as follows:
 
 ```bash
-./sim input.txt
+./routing_sim input.txt
 ```
 
 Where `inputfile.txt` is the path to the file containing the adjacency matrix.
 
 
 The program outputs:
-1. **DVR** tables after convergence.
+1. **DVR** tables in each iteration.
 2. **LSR** tables (results from Dijkstra per source).
 
 

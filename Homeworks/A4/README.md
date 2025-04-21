@@ -147,10 +147,5 @@ All outputs matched hand‑computed routes and Dijkstra checks.
 - Sai Nikhil (33.33%): Core implementation of DVR & helper functions
 - Anas (33.33%):  Testing & validation test cases, and bug fixes
 
-## 8 Sources Referenced
-- Stevens, W. R. (2003). UNIX Network Programming
-- C++ Concurrency in Action by Anthony Williams
-- Beej's Guide to Network Programming
-
-## 9 Declaration
+## 8 Declaration
 I declare that this implementation is our original work. All sources have been properly referenced, and no code has been plagiarized.

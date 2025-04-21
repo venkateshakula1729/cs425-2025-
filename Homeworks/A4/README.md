@@ -95,6 +95,34 @@ The program outputs:
 - It runs **Dijkstra's algorithm** to compute the shortest path to every node.
 - For each destination, the next hop is traced back using the `prev[]` array from Dijkstra.
 
+
+## 3  Algorithm Overview
+
+| Algorithm | Core Idea | Loop‑Protection / Optimality | Our Implementation |
+|-----------|-----------|------------------------------|-------------------|
+| **DVR** | Each node iteratively exchanges its distance table with neighbors (Bellman‑Ford style). | Repeats until *no entry changes*, guaranteeing convergence to shortest paths given consistent metrics. | Triple‑nested loop; updates `dist` and `nextHop` until stable (see `simulateDVR`). |
+| **LSR** | Every node floods link‑state info (full topology), then runs Dijkstra locally. | Always yields optimal paths (non‑negative weights). | Runs Dijkstra once **per source** (see `simulateLSR`). |
+
+## 4  Code Walk‑Through
+
+| Function | Role |
+|----------|------|
+| `readGraphFromFile` | Parses the adjacency matrix from the provided file. |
+| `simulateDVR` | Performs iterative **Bellman‑Ford** updates until distance tables converge; prints final routing tables for each node. 3 loops to choose distance, neighbours and the source. Continues till no updates left |
+| `simulateLSR` | Executes **Dijkstra's algorithm** from every node, producing shortest‑path trees and printing routing tables. |
+| `printDVRTable` / `printLSRTable` | Nicely formats the distance/next‑hop information. |
+| `main` | Validates CLI arguments, loads the graph, triggers both simulations in sequence. |
+
+## 5  Testing
+
+We validated the simulator on:
+
+* **Symmetric & asymmetric weights** to make sure that DVR and LSR both give the same metric results.
+* **Edge cases**: Checking different graph networks - fully‑connected graph, line topology, star topology.
+* **Unreachable links** (`9999`) to confirm correct "INF" behaviour.
+
+All outputs matched hand‑computed routes and Dijkstra checks.
+
 ## Team Contribution
 - Venkatesh (33.33%): Documentation, README, extensive testing & validation
 - Sai Nikhil (33.33%): Implemented core architecture and performed stress testing

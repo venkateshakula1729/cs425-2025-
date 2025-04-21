@@ -143,9 +143,9 @@ We have tested the simulator code on:
 All outputs matched hand‑computed routes and Dijkstra checks.
 
 ## 7 Team Contribution
-- Venkatesh (33.33%): Documentation, README, extensive testing & validation
-- Sai Nikhil (33.33%): Implemented core architecture and performed stress testing
-- Anas (33.33%): Created test cases, synchronization strategy, and bug fixes
+- Venkatesh (33.33%): Implementation of LSR (Dijkstra) & I/O parsing
+- Sai Nikhil (33.33%): Core implementation of DVR & helper functions
+- Anas (33.33%): README, testing & validation test cases, and bug fixes
 
 ## 8 Sources Referenced
 - Stevens, W. R. (2003). UNIX Network Programming

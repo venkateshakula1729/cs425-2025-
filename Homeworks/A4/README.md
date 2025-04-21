@@ -98,13 +98,33 @@ The program outputs:
 
 ## 4  Code Structure
 
+## Core Functions
+
 | Function | Purpose |
 |----------|---------|
-| `readGraphFromFile()` | Parses adjacency matrix from input file |
-| `simulateDVR()` | Performs iterative Bellman-Ford updates until convergence |
-| `simulateLSR()` | Executes Dijkstra's algorithm from every node |
-| `printDVRTable()` | Formats DVR routing tables |
-| `printLSRTable()` | Formats LSR routing tables |
+| `readGraphFromFile()` | Reads network topology from text file containing adjacency matrix (INF=9999 for disconnected nodes) |
+| `simulateDVR()` | Implements Distance Vector Routing using Bellman-Ford algorithm with iterative neighbor updates until stable routes |
+| `simulateLSR()` | Computes optimal routes via Dijkstra's algorithm from each node's perspective (requires full topology) |
+| `printDVRTable()` | Displays formatted routing tables showing [Destination → Cost → Next Hop] for DVR |
+| `printLSRTable()` | Outputs calculated shortest paths in [Destination → Total Cost → First Hop] format for LSR |
+
+## Complete README Code
+
+```markdown
+# Network Routing Simulator
+
+Implements both Distance Vector (Bellman-Ford) and Link State (Dijkstra) routing algorithms in C++.
+
+## Features
+
+- Handles symmetric/asymmetric link costs
+- Supports disconnected nodes (INF = 9999)
+- Step-by-step convergence display for DVR
+- Complete routing tables for LSR
+
+## Usage
+
+1. Prepare input file (`network.txt`):
 
 ## 5 Implementation Details
 

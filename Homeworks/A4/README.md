@@ -108,23 +108,9 @@ The program outputs:
 | `printDVRTable()` | Displays formatted routing tables showing [Destination → Cost → Next Hop] for DVR |
 | `printLSRTable()` | Outputs calculated shortest paths in [Destination → Total Cost → First Hop] format for LSR |
 
-## Complete README Code
 
-```markdown
-# Network Routing Simulator
 
-Implements both Distance Vector (Bellman-Ford) and Link State (Dijkstra) routing algorithms in C++.
 
-## Features
-
-- Handles symmetric/asymmetric link costs
-- Supports disconnected nodes (INF = 9999)
-- Step-by-step convergence display for DVR
-- Complete routing tables for LSR
-
-## Usage
-
-1. Prepare input file (`network.txt`):
 
 ## 5 Implementation Details
 

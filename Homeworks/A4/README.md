@@ -74,7 +74,8 @@ The program outputs:
 2. **LSR** tables (results from Dijkstra per source).
 
 
-## Algorithm Details:
+
+## 3  Algorithm Details:
 
 ### Distance Vector Routing (DVR)
 
@@ -95,13 +96,6 @@ The program outputs:
 - It runs **Dijkstra's algorithm** to compute the shortest path to every node.
 - For each destination, the next hop is traced back using the `prev[]` array from Dijkstra.
 
-
-## 3  Algorithm Overview
-
-| Algorithm | Core Idea | Loop‑Protection / Optimality | Our Implementation |
-|-----------|-----------|------------------------------|-------------------|
-| **DVR** | Each node iteratively exchanges its distance table with neighbors (Bellman‑Ford style). | Repeats until *no entry changes*, guaranteeing convergence to shortest paths given consistent metrics. | Triple‑nested loop; updates `dist` and `nextHop` until stable (see `simulateDVR`). |
-| **LSR** | Every node floods link‑state info (full topology), then runs Dijkstra locally. | Always yields optimal paths (non‑negative weights). | Runs Dijkstra once **per source** (see `simulateLSR`). |
 
 ## 4  Code Walk‑Through
 
